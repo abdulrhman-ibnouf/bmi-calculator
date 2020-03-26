@@ -14,7 +14,7 @@ class IconContent extends StatelessWidget {
       children: <Widget>[
         Icon( icon, size: 80.0,),
         SizedBox(height: 15,),
-        Text( label, style: TextStyle(color: Color(0xFF8D8E98), fontSize: 18.0, fontWeight: FontWeight.normal,),),
+        Text( label,),
       ],
     );
   }

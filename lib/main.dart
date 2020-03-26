@@ -1,12 +1,15 @@
-import 'package:bmicalculator/input_page.dart';
 import 'package:flutter/material.dart';
+import 'package:bmicalculator/input_page.dart';
+import 'package:bmicalculator/widgets/constants.dart';
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BMI Calculator',
       theme: ThemeData.dark().copyWith(
-        primaryColor: Color(0xFF0A0E21),
-        scaffoldBackgroundColor: Color(0xFF0A0E21),
+        primaryColor: primaryColor,
+        scaffoldBackgroundColor: scaffoldBackgroundColor,
+        sliderTheme: kSliderTheme,
+        textTheme: TextTheme(body1: kLabelTextStyle,),
       ),
       home: Scaffold(
         appBar: AppBar(

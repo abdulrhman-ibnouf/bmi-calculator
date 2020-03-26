@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bmicalculator/widgets/my_container.dart';
+import 'package:bmicalculator/widgets/my_reusable_card.dart';
 import 'package:bmicalculator/widgets/icon_content.dart';
+import 'package:bmicalculator/widgets/my_column.dart';
+import 'package:bmicalculator/widgets/constants.dart';
 
-const bottomContainerHeight = 80.0;
-const bottomContainerColor = Color(0xFFEB1555);
-const activeCardColor = Color(0xFF1D1E33);
-const inactiveCardColor = Color(0xFF111328);
-
-enum Gender { female, male, }
+enum Gender {female, male,}
 
 class InputPage extends StatefulWidget {
 
@@ -18,27 +15,10 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
 
-  Color femaleCardColor = inactiveCardColor;
-  Color maleCardColor = inactiveCardColor;
-
-  void updateColor(Gender selectedGender) {
-    if (selectedGender == Gender.female) {
-      if (femaleCardColor == inactiveCardColor) {
-        femaleCardColor = activeCardColor;
-        maleCardColor = inactiveCardColor;
-      } else {
-        femaleCardColor = inactiveCardColor;
-      }
-    }
-    if (selectedGender == Gender.male) {
-      if (maleCardColor == inactiveCardColor) {
-        maleCardColor = activeCardColor;
-        femaleCardColor = inactiveCardColor;
-      } else {
-        maleCardColor = inactiveCardColor;
-      }
-    }
-  }
+  Gender selectedGender;
+  int height = 180;
+  int weight = 60;
+  int age = 25;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +26,8 @@ class _InputPageState extends State<InputPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+
+        //First Row
         Expanded(
           flex: 2,
           child: Row(
@@ -54,45 +36,62 @@ class _InputPageState extends State<InputPage> {
             children: <Widget>[
               Expanded(
                 flex: 1,
-                child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        updateColor(Gender.female);
-                      });
-                    },
-                    child: MyCustomContainer(
-                      color: femaleCardColor,
-                      cardChild: IconContent(
-                        icon: FontAwesomeIcons.venus,
-                        label: 'FEMALE',
-                      ),
-                    )),
+                child: MyReusableCard(
+                  onPress: (){setState(() {
+                    selectedGender = Gender.female;
+                  });},
+                  color: selectedGender == Gender.female ? kActiveCardColor: kInactiveCardColor,
+                  cardChild: IconContent( icon: FontAwesomeIcons.venus, label: 'FEMALE',),
+                ),
               ),
               Expanded(
                 flex: 1,
-                child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        updateColor(Gender.male);
-                      });
-                    },
-                    child: MyCustomContainer(
-                      color: maleCardColor,
-                      cardChild: IconContent(
-                        icon: FontAwesomeIcons.mars,
-                        label: 'MALE',
-                      ),
-                    )),
+                child: MyReusableCard(
+                  onPress: (){setState(() {
+                    selectedGender = Gender.male;
+                  });},
+                  color: selectedGender == Gender.male ? kActiveCardColor : kInactiveCardColor,
+                  cardChild: IconContent(
+                    icon: FontAwesomeIcons.mars,
+                    label: 'MALE',
+                  ),
+                ),
               ),
             ],
           ),
         ),
+
+        //Second Row: Container
         Expanded(
           flex: 2,
-          child: MyCustomContainer(
-            color: activeCardColor,
+          child: MyReusableCard(
+            color: kActiveCardColor,
+            cardChild: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text('HEIGHT',),
+                Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic,
+                  children: <Widget>[
+                    Text(height.toString(), style: kNumbersTextStyle,),
+                    Text('cm',)
+                  ],),
+                Slider(
+                  min: 100, max: 220,
+//                divisions: 120,
+                  value: height.toDouble(), label: '$height',
+                  onChanged: (double newValue){
+                    setState(() {
+                      height = newValue.round();
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
+
+        //Third Row
         Expanded(
           flex: 2,
           child: Row(
@@ -101,26 +100,54 @@ class _InputPageState extends State<InputPage> {
             children: <Widget>[
               Expanded(
                 flex: 1,
-                child: MyCustomContainer(
-                  color: activeCardColor,
+                child: MyReusableCard(
+                  color: kActiveCardColor,
+                  cardChild: MyCustomColumn(
+                    columnTitle: 'WEIGHT', columnNumber: weight,
+                    minusOne: () {
+                      setState(() {
+                        weight--;
+                      });
+                    },
+                    plusOne: () {
+                      setState(() {
+                        weight++;
+                      });
+                    },
+                  ),
                 ),
               ),
               Expanded(
                 flex: 1,
-                child: MyCustomContainer(
-                  color: activeCardColor,
+                child: MyReusableCard(
+                  color: kActiveCardColor,
+                  cardChild: MyCustomColumn(
+                    columnTitle: 'AGE', columnNumber: age,
+                    minusOne: () {
+                      setState(() {
+                        age--;
+                      });
+                    },
+                    plusOne: () {
+                      setState(() {
+                        age++;
+                      });
+                    },
+                  ),
                 ),
               ),
             ],
           ),
         ),
+
+        //Forth Row: Bottom
         Expanded(
           flex: 1,
           child: Container(
-            color: bottomContainerColor,
+            color: kPinkColor,
             margin: EdgeInsets.only(top: 10),
             width: double.infinity,
-            height: bottomContainerHeight,
+            height: kBottomContainerHeight,
           ),
         ),
       ],
