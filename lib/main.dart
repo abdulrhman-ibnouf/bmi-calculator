@@ -1,6 +1,7 @@
+import 'package:bmicalculator/pages/input_page.dart';
 import 'package:flutter/material.dart';
-import 'package:bmicalculator/input_page.dart';
-import 'package:bmicalculator/widgets/constants.dart';
+import 'package:bmicalculator/pages/results.dart';
+import 'package:bmicalculator/components/constants.dart';
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -9,14 +10,14 @@ void main() => runApp(MaterialApp(
         primaryColor: primaryColor,
         scaffoldBackgroundColor: scaffoldBackgroundColor,
         sliderTheme: kSliderTheme,
-        textTheme: TextTheme(body1: kLabelTextStyle,),
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          elevation: 8.0,
-          title: Text('BMI Calculator'),
-          centerTitle: true,
+        textTheme: TextTheme(
+          body1: kLabelTextStyle,
         ),
-        body: InputPage(),
       ),
-    ));
+      initialRoute: '/',
+      routes: {
+        '/' : (context) => InputPage(),
+        'results' : (context) => Results(),
+      },
+    )
+);

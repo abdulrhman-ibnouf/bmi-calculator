@@ -1,6 +1,6 @@
 import 'package:bmicalculator/widgets/round_icon_button.dart';
 import 'package:flutter/material.dart';
-import 'package:bmicalculator/widgets/constants.dart';
+import 'package:bmicalculator/components/constants.dart';
 
 class MyCustomColumn extends StatelessWidget {
 
